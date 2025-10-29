@@ -33,7 +33,7 @@ alertmanager:
       repeat_interval: 12h
       receiver: 'null'
     receivers:
-    - name: 'null'
+      - name: 'null'
 
 grafana:
   enabled: true
@@ -67,3 +67,17 @@ kube-state-metrics:
 
 prometheus-node-exporter:
   enabled: true
+
+# Добавляем ServiceMonitor для приложения
+additionalServiceMonitors:
+  - name: my-app-monitor
+    selector:
+      matchLabels:
+        app: my-app
+    namespaceSelector:
+      matchNames:
+        - default
+    endpoints:
+      - port: http
+        interval: 30s
+

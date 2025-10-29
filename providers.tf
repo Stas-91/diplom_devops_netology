@@ -13,6 +13,10 @@ terraform {
       source = "hashicorp/kubernetes"
     }
 
+    helm = {
+      source = "hashicorp/helm"
+      version = ">= 2.9.0"
+    }
   }
   required_version = ">= 1.8.4"
 }
@@ -39,4 +43,12 @@ provider "kubernetes" {
   host                   = yandex_kubernetes_cluster.my_cluster.master[0].external_v4_endpoint
   cluster_ca_certificate = yandex_kubernetes_cluster.my_cluster.master[0].cluster_ca_certificate
   token                  = data.yandex_client_config.client.iam_token
+}
+
+provider "helm" {
+  kubernetes = {
+    host                   = yandex_kubernetes_cluster.my_cluster.master[0].external_v4_endpoint
+    cluster_ca_certificate = yandex_kubernetes_cluster.my_cluster.master[0].cluster_ca_certificate
+    token                  = data.yandex_client_config.client.iam_token
+  }
 }
