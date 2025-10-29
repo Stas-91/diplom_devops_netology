@@ -9,16 +9,15 @@ terraform {
       version = "> 5.1"
     }
 
-    random = {
-      source  = "hashicorp/random"
-      version = "> 3.5"
+    kubernetes = {
+      source = "hashicorp/kubernetes"
     }
+
   }
-  required_version = ">=1.8.4"
+  required_version = ">= 1.8.4"
 }
 
 provider "yandex" {
-  #token                    = var.token
   cloud_id                 = "b1g8ta6qu7na0ir2khnv"
   folder_id                = "b1g8kve3609ag8bp327e"
   service_account_key_file = file("~/.authorized_key.json")
@@ -34,7 +33,10 @@ provider "aws" {
   secret_key                  = "mock_secret_key"
 }
 
-# provider "vault" {
-#   address = "http://127.0.0.1:8200"
-#   token   = "education"
-# }
+data "yandex_client_config" "client" {}
+
+provider "kubernetes" {
+  host                   = yandex_kubernetes_cluster.my_cluster.master[0].external_v4_endpoint
+  cluster_ca_certificate = yandex_kubernetes_cluster.my_cluster.master[0].cluster_ca_certificate
+  token                  = data.yandex_client_config.client.iam_token
+}

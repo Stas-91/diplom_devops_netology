@@ -1,8 +1,13 @@
-###cloud vars
+# ##cloud vars
 # variable "token" {
 #   type        = string
 #   description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
 # }
+
+variable "iam_token" {
+  type        = string
+  description = "iam_token"
+}
 
 # variable "cloud_id" {
 #   type        = string
@@ -29,12 +34,6 @@ variable "default_cidr" {
 # VPC Configurations
 variable "vpc_configs" {
   default = {
-    dev = {
-      network_name = "develop"
-      subnets = [
-        { zone = "ru-central1-a", cidr = "10.0.1.0/24" }
-      ]
-    }
     prod = {
       network_name = "production"
       subnets = [
@@ -46,96 +45,117 @@ variable "vpc_configs" {
   }
 }
 
-# VM Common Configurations
-variable "vm_common" {
-  default = {
-    username      = "ubuntu"
-    packages      = ["vim", "nginx"]
-    runcmd        = "runcmd:\n  - [ systemctl, enable, nginx ]\n  - [ systemctl, start, nginx ]"
-    image_family  = "ubuntu-2004-lts"
-    serial_port_enable = 1
-  }
-}
+# # VM Common Configurations
+# variable "vm_common" {
+#   default = {
+#     username      = "ubuntu"
+#     packages      = ["vim", "nginx"]
+#     runcmd        = "runcmd:\n  - [ systemctl, enable, nginx ]\n  - [ systemctl, start, nginx ]"
+#     image_family  = "ubuntu-2004-lts"
+#     serial_port_enable = 1
+#   }
+# }
 
 # variable "vms_ssh_root_key" {
 #   type = string
 # }
 
-# VM Specific Configurations
-variable "vm_instances" {
-  default = {
-    marketing = {
-      env_name       = "develop"
-      instance_name  = "webs"
-      instance_count = 1
-      public_ip      = true
-      subnet_zones   = ["ru-central1-a"]
-      labels = {
-        owner   = "s.pomelnikov"
-        project = "marketing"
-      }
-    }
-    analytics = {
-      env_name       = "stage"
-      instance_name  = "web-stage"
-      instance_count = 1
-      public_ip      = true
-      subnet_zones   = ["ru-central1-a"]
-      labels = {
-        owner   = "s.pomelnikov"
-        project = "analytics"
-      }
-    }
-  }
-}
+# # VM Specific Configurations
+# variable "vm_instances" {
+#   default = {
+#     marketing = {
+#       env_name       = "develop"
+#       instance_name  = "webs"
+#       instance_count = 1
+#       public_ip      = true
+#       subnet_zones   = ["ru-central1-a"]
+#       labels = {
+#         owner   = "s.pomelnikov"
+#         project = "marketing"
+#       }
+#     }
+#     analytics = {
+#       env_name       = "stage"
+#       instance_name  = "web-stage"
+#       instance_count = 1
+#       public_ip      = true
+#       subnet_zones   = ["ru-central1-a"]
+#       labels = {
+#         owner   = "s.pomelnikov"
+#         project = "analytics"
+#       }
+#     }
+#   }
+# }
 
-# MySQL Configuration
-variable "mysql_config" {
-  default = {
-    cluster_name   = "example"
-    ha             = true
-    database_name  = "test"
-    username       = "app"
-    password       = "Qwerty123"
-    user_roles     = ["ALL"]
-  }
-}
+# # MySQL Configuration
+# variable "mysql_config" {
+#   default = {
+#     cluster_name   = "example"
+#     ha             = true
+#     database_name  = "test"
+#     username       = "app"
+#     password       = "Qwerty123"
+#     user_roles     = ["ALL"]
+#   }
+# }
 
-# S3 Configuration
-variable "s3_config" {
-  default = {
-    bucket_prefix = "simple-bucket"
-    max_size      = 1073741824
-    versioning    = {
-      enabled = true
-    }
-  }
-}
+# # S3 Configuration
+# variable "s3_config" {
+#   default = {
+#     bucket_prefix = "simple-bucket"
+#     max_size      = 1073741824
+#     versioning    = {
+#       enabled = true
+#     }
+#   }
+# }
 
-# Random String Configuration
-variable "random_string_config" {
-  default = {
-    length  = 8
-    upper   = false
-    lower   = true
-    numeric = true
-    special = false
-  }
-}
+# # Random String Configuration
+# variable "random_string_config" {
+#   default = {
+#     length  = 8
+#     upper   = false
+#     lower   = true
+#     numeric = true
+#     special = false
+#   }
+# }
 
-# Vault Configuration
-variable "vault_config" {
-  default = {
-    mount = "secret"
-    name  = "example"
-    data  = {
-      test = "congrats!"
-    }
-  }
-}
+# # Vault Configuration
+# variable "vault_config" {
+#   default = {
+#     mount = "secret"
+#     name  = "example"
+#     data  = {
+#       test = "congrats!"
+#     }
+#   }
+# }
 
 variable "service_account_id" {
   type        = string
   default     = "ajelcusjb3oh3f69b88m"
   description = "Service account ID"
+}
+
+# reegistry Configuration
+variable "registry_name" {
+  description = "Registry name (unique, 3-63 characters, lowercase letters, numbers, and hyphens only)"
+  type        = string
+  default     = "my-registry1"
+}
+
+variable "dockerhub_username" {
+  type = string
+  default = "stas91"
+}
+
+variable "repo_name" {
+  type    = string
+  default = "app"
+}
+
+variable "repo_pass" {
+  type    = string
 }
