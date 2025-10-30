@@ -9,6 +9,11 @@ terraform {
       version = "> 5.1"
     }
 
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = ">= 3.0.2"
+    }    
+
     kubernetes = {
       source = "hashicorp/kubernetes"
     }
@@ -35,6 +40,14 @@ provider "aws" {
   skip_metadata_api_check     = true
   access_key                  = "mock_access_key"
   secret_key                  = "mock_secret_key"
+}
+
+provider "docker" {
+  registry_auth {
+    address  = "registry-1.docker.io"
+    username = var.dockerhub_username
+    password = var.dockerhub_password
+  }
 }
 
 data "yandex_client_config" "client" {}

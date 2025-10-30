@@ -7,7 +7,11 @@ resource "helm_release" "kube_prometheus_stack" {
   chart            = "kube-prometheus-stack"
   namespace        = "monitoring"
   create_namespace = true
-  values           = [file("${path.cwd}/monitoring.yaml")]
+  values = [
+    templatefile("${path.module}/monitoring.yaml.tpl", {
+      grafana_admin_password = var.grafana_admin_password
+    })
+  ]
   timeout          = 600
 }
 

@@ -41,7 +41,7 @@ grafana:
     server:
       root_url: "%(protocol)s://%(domain)s:%(http_port)s/"
       serve_from_sub_path: false
-  adminPassword: "MySecurePassword123"
+  adminPassword: "${grafana_admin_password}"
   service:
     type: NodePort
     port: 3000

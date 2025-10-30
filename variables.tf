@@ -151,11 +151,23 @@ variable "dockerhub_username" {
   default = "stas91"
 }
 
-variable "repo_name" {
+variable "repo" {
   type    = string
-  default = "app"
+  default = "stas91/app"
 }
 
-variable "repo_pass" {
+variable "tag" {
   type    = string
+  default = "latest"
+}
+
+variable "dockerhub_password" {
+  type    = string
+  sensitive = true
+}
+
+variable "grafana_admin_password" {
+  type        = string
+  sensitive   = true
+  description = "Пароль админа Grafana"
 }
